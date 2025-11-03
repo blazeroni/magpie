@@ -1,0 +1,98 @@
+version: "2"
+linters:
+  # Default set of linters.
+  # The value can be:
+  # - `standard`: https://golangci-lint.run/docs/linters/#enabled-by-default
+  # - `all`: enables all linters by default.
+  # - `none`: disables all linters by default.
+  # - `fast`: enables only linters considered as "fast" (`golangci-lint help linters --json | jq '[ .[] | select(.fast==true) ] | map(.name)'`).
+  # Default: standard
+  default: none
+  enable:
+    - bidichk
+    - errcheck
+    - exhaustive
+    - forbidigo
+    - funcorder
+    - iface
+    - ineffassign
+    - intrange
+    - gocritic
+    - godoclint
+    - godot
+    - goheader
+    - gosec
+    - gochecksumtype
+    - govet
+    - nakedret
+    - nilnil
+    - reassign
+    - recvcheck
+    - revive
+    - staticcheck
+    - testifylint
+    - tparallel
+    - unused
+    - usestdlibvars
+    - usetesting
+    - wastedassign
+    - whitespace
+  settings:
+    errcheck:
+      check-type-assertions: true
+      check-blank: true
+    exhaustive:
+      check:
+        - switch
+        - map
+    goheader:
+      template: |-
+        Copyright {{ YEAR }} Magpie Contributors
+        SPDX-License-Identifier: MIT
+    gosec:
+      excludes:
+        - G115 # Potential integer overflow when converting between integer types
+      config:
+        G306: "0644"
+
+    govet:
+      enable-all: true
+#      disable:
+#        - fieldalignment # too strict
+      settings:
+        shadow:
+          strict: true
+
+  exclusions:
+    warn-unused: true
+    # Predefined exclusion rules.
+    # Default: []
+    presets:
+      - std-error-handling
+      - common-false-positives
+    # Excluding configuration per-path, per-linter, per-text and per-source.
+    rules:
+      - source: 'TODO'
+        linters: [ godot ]
+      - text: 'should have a package comment'
+        linters: [ revive ]
+      - text: 'exported \S+ \S+ should have comment( \(or a comment on this block\))? or be unexported'
+        linters: [ revive ]
+      - text: 'package comment should be of the form ".+"'
+        source: '// ?(nolint|TODO)'
+        linters: [ revive ]
+      - text: 'comment on exported \S+ \S+ should be of the form ".+"'
+        source: '// ?(nolint|TODO)'
+        linters: [ revive, staticcheck ]
+      - path: '_test\.go'
+        linters:
+          - errcheck
+          - gosec
+          - govet
+#    govet:
+#      check-shadowing: true
+#  settings:
+#    wsl_v5:
+#      allow-first-in-block: true
+#      allow-whole-block: false
+#      branch-max-lines: 2
