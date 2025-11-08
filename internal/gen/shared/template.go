@@ -38,7 +38,7 @@ type BlendTemplate struct {
 var BlendTemplates = []BlendTemplate{
 	{
 		Name:       "ColorBurn",
-		Kernel:     "if $S == 0 || $D < 255 - $S { $R = 0 } else { $R = 255 - ((255-$D)*255 + $S/2)/$S }",
+		Kernel:     "if $S + $D <= 255 { $R = 0 } else { $R = 255 - ((255 - $D) * 255 + $S/2) / $S }",
 		KernelDocs: "Cr = 1 - (1 - Cd) / Cs",
 	},
 	{
@@ -134,8 +134,8 @@ var BlendTemplates = []BlendTemplate{
 		Name: "VividLight",
 		Kernel: "switch { " +
 			"case $S == 0 || $S == 255: $R = $S; " +
-			"case $S < 128: $R = min(255-((255-$D)*255/(2*$S)), 255); " +
-			"default: $R = min(($D*255)/(255-(2*$S-255)), 255) }",
+			"case $S < 128: $R = 255 - min(((255 - $D) * 255 + $S) / (2 * $S), 255); " +
+			"default: $R = min((($D * 255) + (255 - $S)) / (510 - 2 * $S), 255) }",
 		KernelDocs: "if Cs < 0.5 { Cr = 1 - (1 - Cd) / (2 * Cs) } else { Cr = Cd / (2 * (1 - Cs)) }",
 	},
 }

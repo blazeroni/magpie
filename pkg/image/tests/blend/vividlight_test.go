@@ -77,6 +77,17 @@ func TestBlendVividLight(t *testing.T) {
 		},
 		{
 			colors: testColors{
+				name: "DarkSrc_Underflow",
+				dst:  c(0x00_00_00_ff),
+				src:  c(0x01_01_01_ff),
+			},
+			compositing: map[op.BlendCompositing]color.NRGBA{
+				op.CompositeAll: c(0x00_00_00_ff),
+			},
+			tolerance: 0,
+		},
+		{
+			colors: testColors{
 				name: "LightSrc",
 				dst:  c(0x80_80_80_ff),
 				src:  c(0xc0_c0_c0_ff),
