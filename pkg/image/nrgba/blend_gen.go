@@ -44,17 +44,17 @@ func BlendColorBurn(pixIter core.PixelIterator, calc core.PixCalculator[*image.N
 
 			// Calculate the pure blend color
 			// region BLEND-SPECIFIC LOGIC
-			if sR == 0 || dR < 255-sR {
+			if sR+dR <= 255 {
 				oR = 0
 			} else {
 				oR = 255 - ((255-dR)*255+sR/2)/sR
 			}
-			if sG == 0 || dG < 255-sG {
+			if sG+dG <= 255 {
 				oG = 0
 			} else {
 				oG = 255 - ((255-dG)*255+sG/2)/sG
 			}
-			if sB == 0 || dB < 255-sB {
+			if sB+dB <= 255 {
 				oB = 0
 			} else {
 				oB = 255 - ((255-dB)*255+sB/2)/sB
@@ -1752,25 +1752,25 @@ func BlendVividLight(pixIter core.PixelIterator, calc core.PixCalculator[*image.
 			case sR == 0 || sR == 255:
 				oR = sR
 			case sR < 128:
-				oR = min(255-((255-dR)*255/(2*sR)), 255)
+				oR = 255 - min(((255-dR)*255+sR)/(2*sR), 255)
 			default:
-				oR = min((dR*255)/(255-(2*sR-255)), 255)
+				oR = min(((dR*255)+(255-sR))/(510-2*sR), 255)
 			}
 			switch {
 			case sG == 0 || sG == 255:
 				oG = sG
 			case sG < 128:
-				oG = min(255-((255-dG)*255/(2*sG)), 255)
+				oG = 255 - min(((255-dG)*255+sG)/(2*sG), 255)
 			default:
-				oG = min((dG*255)/(255-(2*sG-255)), 255)
+				oG = min(((dG*255)+(255-sG))/(510-2*sG), 255)
 			}
 			switch {
 			case sB == 0 || sB == 255:
 				oB = sB
 			case sB < 128:
-				oB = min(255-((255-dB)*255/(2*sB)), 255)
+				oB = 255 - min(((255-dB)*255+sB)/(2*sB), 255)
 			default:
-				oB = min((dB*255)/(255-(2*sB-255)), 255)
+				oB = min(((dB*255)+(255-sB))/(510-2*sB), 255)
 			}
 			// endregion BLEND-SPECIFIC LOGIC
 

@@ -46,17 +46,17 @@ func BlendColorBurn(pixIter core.PixelIterator, calc core.PixCalculator[*image.R
 				var kR, kG, kB uint32
 
 				// region BLEND-SPECIFIC KERNEL LOGIC
-				if sR == 0 || dR < 255-sR {
+				if sR+dR <= 255 {
 					kR = 0
 				} else {
 					kR = 255 - ((255-dR)*255+sR/2)/sR
 				}
-				if sG == 0 || dG < 255-sG {
+				if sG+dG <= 255 {
 					kG = 0
 				} else {
 					kG = 255 - ((255-dG)*255+sG/2)/sG
 				}
-				if sB == 0 || dB < 255-sB {
+				if sB+dB <= 255 {
 					kB = 0
 				} else {
 					kB = 255 - ((255-dB)*255+sB/2)/sB
@@ -86,17 +86,17 @@ func BlendColorBurn(pixIter core.PixelIterator, calc core.PixCalculator[*image.R
 				var kR, kG, kB uint32
 
 				// region BLEND-SPECIFIC KERNEL LOGIC
-				if sR == 0 || dR < 255-sR {
+				if sR+dR <= 255 {
 					kR = 0
 				} else {
 					kR = 255 - ((255-dR)*255+sR/2)/sR
 				}
-				if sG == 0 || dG < 255-sG {
+				if sG+dG <= 255 {
 					kG = 0
 				} else {
 					kG = 255 - ((255-dG)*255+sG/2)/sG
 				}
-				if sB == 0 || dB < 255-sB {
+				if sB+dB <= 255 {
 					kB = 0
 				} else {
 					kB = 255 - ((255-dB)*255+sB/2)/sB
@@ -2520,25 +2520,25 @@ func BlendVividLight(pixIter core.PixelIterator, calc core.PixCalculator[*image.
 				case sR == 0 || sR == 255:
 					kR = sR
 				case sR < 128:
-					kR = min(255-((255-dR)*255/(2*sR)), 255)
+					kR = 255 - min(((255-dR)*255+sR)/(2*sR), 255)
 				default:
-					kR = min((dR*255)/(255-(2*sR-255)), 255)
+					kR = min(((dR*255)+(255-sR))/(510-2*sR), 255)
 				}
 				switch {
 				case sG == 0 || sG == 255:
 					kG = sG
 				case sG < 128:
-					kG = min(255-((255-dG)*255/(2*sG)), 255)
+					kG = 255 - min(((255-dG)*255+sG)/(2*sG), 255)
 				default:
-					kG = min((dG*255)/(255-(2*sG-255)), 255)
+					kG = min(((dG*255)+(255-sG))/(510-2*sG), 255)
 				}
 				switch {
 				case sB == 0 || sB == 255:
 					kB = sB
 				case sB < 128:
-					kB = min(255-((255-dB)*255/(2*sB)), 255)
+					kB = 255 - min(((255-dB)*255+sB)/(2*sB), 255)
 				default:
-					kB = min((dB*255)/(255-(2*sB-255)), 255)
+					kB = min(((dB*255)+(255-sB))/(510-2*sB), 255)
 				}
 				out[i] = uint8(kR)
 				out[i+1] = uint8(kG)
@@ -2569,25 +2569,25 @@ func BlendVividLight(pixIter core.PixelIterator, calc core.PixCalculator[*image.
 				case sR == 0 || sR == 255:
 					kR = sR
 				case sR < 128:
-					kR = min(255-((255-dR)*255/(2*sR)), 255)
+					kR = 255 - min(((255-dR)*255+sR)/(2*sR), 255)
 				default:
-					kR = min((dR*255)/(255-(2*sR-255)), 255)
+					kR = min(((dR*255)+(255-sR))/(510-2*sR), 255)
 				}
 				switch {
 				case sG == 0 || sG == 255:
 					kG = sG
 				case sG < 128:
-					kG = min(255-((255-dG)*255/(2*sG)), 255)
+					kG = 255 - min(((255-dG)*255+sG)/(2*sG), 255)
 				default:
-					kG = min((dG*255)/(255-(2*sG-255)), 255)
+					kG = min(((dG*255)+(255-sG))/(510-2*sG), 255)
 				}
 				switch {
 				case sB == 0 || sB == 255:
 					kB = sB
 				case sB < 128:
-					kB = min(255-((255-dB)*255/(2*sB)), 255)
+					kB = 255 - min(((255-dB)*255+sB)/(2*sB), 255)
 				default:
-					kB = min((dB*255)/(255-(2*sB-255)), 255)
+					kB = min(((dB*255)+(255-sB))/(510-2*sB), 255)
 				}
 				// endregion BLEND-SPECIFIC KERNEL LOGIC
 
