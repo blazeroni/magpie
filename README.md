@@ -3,6 +3,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/blazeroni/magpie/.svg)](https://pkg.go.dev/github.com/blazeroni/magpie/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/blazeroni/magpie)](https://goreportcard.com/report/github.com/blazeroni/magpie)
 [![codecov](https://codecov.io/github/blazeroni/magpie/graph/badge.svg?token=ZMLR3TBDY5)](https://codecov.io/github/blazeroni/magpie)
+[![blazingly fast](https://blazingly.fast/api/badge.svg?repo=blazeroni%2Fmagpie)](https://blazingly.fast)
 
 **magpie** is a high-performance, expressive image blending and composition library in pure Go.
 
